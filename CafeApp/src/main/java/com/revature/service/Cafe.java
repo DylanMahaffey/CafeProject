@@ -92,16 +92,12 @@ public class Cafe {
 	}
 	
 	public boolean getUserByEmail(String email) {
-<<<<<<< HEAD
+
 		//fluff
 		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null) {
 			return true;
 		}
 		return false;
-=======
-		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null)
-		
->>>>>>> b35ef2a2e760aa71523b27719f3380e1924a51ba
 		
 	}
 	
