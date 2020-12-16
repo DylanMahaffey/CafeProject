@@ -9,6 +9,7 @@ import com.revature.dao.OrderDaoImpl;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.Food;
+import com.revature.models.Order;
 import com.revature.models.User;
 
 import java.util.List;
@@ -29,40 +30,33 @@ public class Cafe {
 		//load customers
 	}
 	
-	public void newOrder(Customer c) {
+	public Order newOrder(Order o) {
 		
-		cDao.updateCustomer(c);
-		/*
-		 * 
-		 * sc = scanner.ask(What do you want?)
-		 * inputFood = sc.nextLine();
-		 * 
-		 * Order o = new Order();
-		 * o.add(inputFood);
-		 * 
-		 *In service layer we leverage our dao layer
-		 * 
-		 * CustomerDao cs = new CustomerDaoImpl();
-		 * 
-		 * cs.insertOtder(o);
-		 * cs.updateCustomer(c);
-		 * 
-		 */
-		
-		
+		currCustomer.getOrders().add(o);
+		oDao.insertOrder(o);
+		cDao.updateCustomer(currCustomer);
+		return o;
 	}
 	
-	public void createCustomerProfile(String name, String email, String password) {
-		/*
-		 * List<Customer> cList = CustomerDao.selectAll()
-		 * 
-		 * if(cList.contains(c)){
-		 * 		CustomerDao.insertCustomer(c);
-		 * else
-		 * 		syso("customer does not exist");
-		 * 
-		 */
-		cDao.insertCustomer(new Customer(name, email, password));
+	public void updateCustomer(Customer c) {
+		
+		cDao.updateCustomer(c);
+	}
+	
+	public void deleteCustomer(Customer c) {
+		cDao.deleteCustomer(c);
+	}
+	
+	public void deleteOrder(Order o) {
+		oDao.deleteOrder(o);
+	}
+	
+	public User createCustomerProfile(String name, String email, String password) {
+
+		Customer c = new Customer(name, email, password);
+		cDao.insertCustomer(c);
+		
+		return c;
 		
 	}
 	
@@ -81,12 +75,14 @@ public class Cafe {
 	public User logIn(String username, String password) {
 		User u = null;
 		//if login doesnt exist 
-		if(cDao.selectCustomerByEmail(username)!=null||eDao.selectEmployeeByEmail(username)!=null) {
+		if(getUserByEmail(username)) {
 			if(cDao.selectCustomerByEmail(username).getPassword().equals(password)) {
 				u = cDao.selectCustomerByEmail(username);
+				currCustomer = (Customer) u;
 			}
 			else if(eDao.selectEmployeeByEmail(username).getPassword().equals(password)) {
 				u = eDao.selectEmployeeByEmail(username);
+				currEmployee = (Employee) u;
 			}
 			else {} 
 				
@@ -96,13 +92,15 @@ public class Cafe {
 	}
 	
 	public boolean getUserByEmail(String email) {
-		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(username)!=null)
-		
+		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null) {
+			return true;
+		}
+		return false;
 		
 	}
+	
 		
 	public void createMenu() {
-		
 		getMenu().add(new Food("Coffee",1.99));
 		getMenu().add(new Food("Water",.99));
 		getMenu().add(new Food("Tea",1.99));
@@ -111,6 +109,10 @@ public class Cafe {
 		getMenu().add(new Food("Croissant",2.99));
 	}
 	
+	public void logOut() {
+		currCustomer = null;
+		currEmployee = null;
+	}
 	
 	
 }
