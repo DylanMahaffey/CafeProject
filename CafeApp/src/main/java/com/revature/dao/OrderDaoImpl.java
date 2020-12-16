@@ -1,43 +1,44 @@
 package com.revature.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.revature.models.Customer;
+import com.revature.models.Order;
 
 public class OrderDaoImpl implements OrderDao {
 
 	@Override
-	public void insertCustomer(Customer c) {
+	public void insertOrder(Order o) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Customer selectCustomerById(int id) {
-		try(Connection conn = ConnectionFactory.getConnection()){
-			String sql = "SELECT * from "
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public List<Customer> selectAllCustomers() {
+	public Order selectOrderById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updateCustomer(Customer c) {
+	public List<Order> selectOrderByCustomer(Customer c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Order> selectAllOrders() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateOrder(Order o) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteCustomer(Customer c) {
+	public void deleteOrder(Order o) {
 		// TODO Auto-generated method stub
 		
 	}
