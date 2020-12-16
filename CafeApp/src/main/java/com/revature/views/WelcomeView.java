@@ -1,6 +1,8 @@
 package com.revature.views;
 
+import com.revature.Router;
 import com.revature.StateManager;
+import com.revature.models.User;
 import com.revature.service.Cafe;
 
 public class WelcomeView {
@@ -40,11 +42,18 @@ public class WelcomeView {
 		
 		// This is where I will call your login to get a user back
 		// Cafe.loginMethod();
+		User u = getCafe().logIn(email, password);
+		if (u == null) {
+			System.out.println("There Username/Password was incorrect");
+		} else {
+			Router.loggingInUser(u);
+		}
 	}
 	
 	public static void register() {
 		StateManager.printSpacer();
-		
+		System.out.println("Enter your full name");
+		String name = StateManager.getScanner().next();
 	}
 
 }
