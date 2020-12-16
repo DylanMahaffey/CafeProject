@@ -7,9 +7,9 @@ import com.revature.service.Cafe;
 
 public class WelcomeView {
 	
-	public static Cafe cafe;
+	private static Cafe cafe;
 	
-	public static Cafe getCafe() {
+	private static Cafe getCafe() {
 		if (cafe == null) {
 			cafe = Cafe.createCafe();
 		}
@@ -54,6 +54,47 @@ public class WelcomeView {
 		StateManager.printSpacer();
 		System.out.println("Enter your full name");
 		String name = StateManager.getScanner().next();
+		String email;
+		String password;
+		
+		boolean emailOK = false;
+		while (!emailOK) {
+			System.out.println("Enter your email");
+			String email = StateManager.getScanner().next();
+			if (!getCafe().getUserByEmail(email)) {
+				System.out.println("Email already exists");
+				continue;
+			} else {
+				emailOK = true;
+				break;
+			}
+			
+		}
+		
+		boolean passwordOK = false;
+		while(!passwordOK) {
+			System.out.println("Enter Password");
+			password = StateManager.getScanner().next();			
+
+			System.out.println("Confirm Password");
+			String confPassword = StateManager.getScanner().next();		
+			
+			if (password.equals(confPassword)) {
+				passwordOK = true;
+				break;
+			} else {
+				System.out.println("Passwords do not match");
+				continue;
+			}
+		}
+		
+		User u = getCafe().createCustomerProfile(name, email, password);
+		if (u == null) {
+			System.out.println("There was an error creating your account.");
+		} else {
+			Router.loggingInUser(u);
+		}
+		
 	}
 
 }
