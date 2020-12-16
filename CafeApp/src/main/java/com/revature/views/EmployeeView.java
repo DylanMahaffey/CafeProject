@@ -1,9 +1,8 @@
 package com.revature.views;
 
-public class CustomerView {
-	
+public class EmployeeView {
+
 	public static void start() {
 		
 	}
-
 }
