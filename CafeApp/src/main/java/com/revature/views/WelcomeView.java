@@ -54,13 +54,13 @@ public class WelcomeView {
 		StateManager.printSpacer();
 		System.out.println("Enter your full name");
 		String name = StateManager.getScanner().next();
-		String email;
-		String password;
+		String email = "";
+		String password = "";
 		
 		boolean emailOK = false;
 		while (!emailOK) {
 			System.out.println("Enter your email");
-			String email = StateManager.getScanner().next();
+			email = StateManager.getScanner().next();
 			if (!getCafe().getUserByEmail(email)) {
 				System.out.println("Email already exists");
 				continue;
