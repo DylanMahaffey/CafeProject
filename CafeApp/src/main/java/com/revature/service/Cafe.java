@@ -4,6 +4,8 @@ import com.revature.dao.CustomerDao;
 import com.revature.dao.CustomerDaoImpl;
 import com.revature.dao.EmployeeDao;
 import com.revature.dao.EmployeeDaoImpl;
+import com.revature.dao.OrderDao;
+import com.revature.dao.OrderDaoImpl;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.Food;
@@ -16,6 +18,7 @@ public class Cafe {
 	
 	private static CustomerDao cDao =  new CustomerDaoImpl();
 	private static EmployeeDao eDao =  new EmployeeDaoImpl();
+	private static OrderDao oDao = new OrderDaoImpl();
 	private static Cafe myCafe;
 	private List<Food> cafeMenu;
 	private Customer currCustomer;
@@ -28,7 +31,7 @@ public class Cafe {
 	
 	public void newOrder(Customer c) {
 		
-		
+		cDao.updateCustomer(c);
 		/*
 		 * 
 		 * sc = scanner.ask(What do you want?)
@@ -49,7 +52,7 @@ public class Cafe {
 		
 	}
 	
-	public void createCustomerProfile() {
+	public void createCustomerProfile(String name, String email, String password) {
 		/*
 		 * List<Customer> cList = CustomerDao.selectAll()
 		 * 
@@ -59,7 +62,7 @@ public class Cafe {
 		 * 		syso("customer does not exist");
 		 * 
 		 */
-		
+		cDao.insertCustomer(new Customer(name, email, password));
 		
 	}
 	
@@ -75,18 +78,35 @@ public class Cafe {
 		return cafeMenu;
 	}
 	
-	public void logIn(String username, String password) {
+	public User logIn(String username, String password) {
+		User u = null;
 		//if login doesnt exist 
-		createCustomerProfile();
+		if(cDao.selectCustomerByEmail(username)!=null||eDao.selectEmployeeByEmail(username)!=null) {
+			if(cDao.selectCustomerByEmail(username).getPassword().equals(password)) {
+				u = cDao.selectCustomerByEmail(username);
+			}
+			else if(eDao.selectEmployeeByEmail(username).getPassword().equals(password)) {
+				u = eDao.selectEmployeeByEmail(username);
+			}
+			else {} 
+				
+		}
+		return  u;
+		
 	}
 	
-	public void getCustomerList() {
-		//implement customers 
+	public User getUserByEmail(String email) {
+		
 	}
-	
-	
+		
 	public void createMenu() {
-		//hard code all the food in
+		
+		getMenu().add(new Food("Coffee",1.99));
+		getMenu().add(new Food("Water",.99));
+		getMenu().add(new Food("Tea",1.99));
+		getMenu().add(new Food("Biscuit",1.99));
+		getMenu().add(new Food("Bagel",.99));
+		getMenu().add(new Food("Croissant",2.99));
 	}
 	
 	

@@ -107,4 +107,10 @@ public class CustomerDaoImpl implements CustomerDao{
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public Customer selectCustomerByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
