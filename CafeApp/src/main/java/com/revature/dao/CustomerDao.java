@@ -13,7 +13,6 @@ public interface CustomerDao {
 	//READ
 	public Customer selectCustomerById(int i);
 	public List<Customer> selectAllCustomers();
-	public Customer selectCustomerByEmail(String email);
 	
 	//UPDATE
 	public void updateCustomer(Customer c);
