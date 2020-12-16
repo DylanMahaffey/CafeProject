@@ -1,18 +1,25 @@
 package com.revature.service;
 
 import com.revature.dao.CustomerDao;
+import com.revature.dao.CustomerDaoImpl;
+import com.revature.dao.EmployeeDao;
+import com.revature.dao.EmployeeDaoImpl;
 import com.revature.models.Customer;
+import com.revature.models.Employee;
 import com.revature.models.Food;
+import com.revature.models.User;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Cafe {
 	
-	private CustomerDao cDao;
+	private static CustomerDao cDao =  new CustomerDaoImpl();
+	private static EmployeeDao eDao =  new EmployeeDaoImpl();
 	private static Cafe myCafe;
 	private List<Food> cafeMenu;
 	private Customer currCustomer;
-	//private List<Users> userList;
+	private Employee currEmployee;
 	
 	private Cafe() {
 		//load food list
@@ -20,6 +27,7 @@ public class Cafe {
 	}
 	
 	public void newOrder(Customer c) {
+		
 		
 		/*
 		 * 
@@ -51,6 +59,8 @@ public class Cafe {
 		 * 		syso("customer does not exist");
 		 * 
 		 */
+		
+		
 	}
 	
 	public static Cafe createCafe() {
@@ -66,16 +76,19 @@ public class Cafe {
 	}
 	
 	public void logIn(String username, String password) {
-		//if fields exist in list of users, set currUser to 
+		//if login doesnt exist 
+		createCustomerProfile();
 	}
 	
 	public void getCustomerList() {
-		//customerList = cDao.getCustomers();
+		//implement customers 
 	}
 	
 	
 	public void createMenu() {
 		//hard code all the food in
 	}
+	
+	
 	
 }

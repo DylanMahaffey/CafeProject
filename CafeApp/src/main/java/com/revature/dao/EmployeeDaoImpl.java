@@ -1,5 +1,5 @@
 package com.revature.dao;
 
-public class EmployeeDaoImpl extends EmployeeDao{
+public class EmployeeDaoImpl implements EmployeeDao{
 
 }
