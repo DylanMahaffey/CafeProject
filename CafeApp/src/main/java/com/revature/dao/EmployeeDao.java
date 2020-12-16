@@ -11,6 +11,7 @@ public interface EmployeeDao {
 	
 	//READ
 	public Employee selectEmployeeById(int i);
+	public Employee selectEmployeeByEmail(String e);
 	public List<Employee> selectAllEmployees();
 	
 	//UPDATE

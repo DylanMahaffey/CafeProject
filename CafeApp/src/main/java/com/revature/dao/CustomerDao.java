@@ -3,7 +3,6 @@ package com.revature.dao;
 import java.util.List;
 
 import com.revature.models.Customer;
-import com.revature.models.User;
 
 public interface CustomerDao {
 	
@@ -12,6 +11,7 @@ public interface CustomerDao {
 	
 	//READ
 	public Customer selectCustomerById(int i);
+	public Customer selectCustomerByEmail(String e);
 	public List<Customer> selectAllCustomers();
 	
 	//UPDATE
