@@ -3,20 +3,22 @@ package com.revature.dao;
 import java.util.List;
 
 import com.revature.models.Customer;
+import com.revature.models.Order;
 
 public interface OrderDao {
 	
 	//CREATE
-	public void insertCustomer(Customer c);
+	public void insertOrder(Order o);
 	
 	//READ
-	public Customer selectCustomerById(int id);
-	public List<Customer> selectAllCustomers();
+	public Order selectOrderById(int id);
+	public List<Order> selectOrderByCustomer(Customer c);
+	public List<Order> selectAllOrders();
 	
 	//UPDATE
-	public void updateCustomer(Customer c);
+	public void updateOrder(Order o);
 	
 	//DELETE
-	public void deleteCustomer(Customer c);
+	public void deleteOrder(Order o);
 
 }
