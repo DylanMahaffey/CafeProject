@@ -36,6 +36,7 @@ public class Router {
 	}
 	
 	public static void loggingInUser(User u) {
+		StateManager.loggedInUser = u;
 		if (u instanceof Customer) {
 			getCustomerView().start();
 		} else if (u instanceof Employee) {
