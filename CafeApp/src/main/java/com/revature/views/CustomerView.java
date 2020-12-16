@@ -35,7 +35,7 @@ private static Cafe cafe;
 	}
 	
 	public static void logout() {
-		getCafe().logOut();
+//		getCafe().logOut();
 		StateManager.loggedInUser = null;
 		Router.getWelcomeView().start();
 	}
