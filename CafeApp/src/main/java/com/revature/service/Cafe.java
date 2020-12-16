@@ -96,7 +96,7 @@ public class Cafe {
 	}
 	
 	public boolean getUserByEmail(String email) {
-		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(username)!=null)
+		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null)
 		
 		
 	}
