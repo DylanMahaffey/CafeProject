@@ -56,7 +56,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public Customer selectCustomerByEmail(String email) {
 		List<Customer> customers = new ArrayList<>();
-		
+		Customer c = null;
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "SELECT * FROM users WHERE type = 'customer' AND email = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -70,7 +70,11 @@ public class CustomerDaoImpl implements CustomerDao{
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return customers.get(0);
+		
+		if (customers.size() > 0) {
+            c = customers.get(0);
+        }
+        return c;
 	}
 
 	@Override
