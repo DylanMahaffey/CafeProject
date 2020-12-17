@@ -12,6 +12,7 @@ import com.revature.models.Food;
 import com.revature.models.Order;
 import com.revature.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,7 +44,14 @@ public class Cafe {
 		cDao.updateCustomer(c);
 	}
 	
-	public void deleteCustomer(Customer c) {
+	public void deleteCustomer(Customer c)
+	{
+		//this should take care of all foreign key constraints
+		for(Order o: currCustomer.getOrders())
+		{
+			deleteOrder(o);
+		}
+		//delete customer after all associated orders are deleted
 		cDao.deleteCustomer(c);
 	}
 	
@@ -92,7 +100,7 @@ public class Cafe {
 	}
 	
 	public boolean getUserByEmail(String email) {
-		//fluff
+		
 		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null) {
 			return true;
 		}
@@ -100,6 +108,19 @@ public class Cafe {
 		
 	}
 	
+	public List<Customer> getLoyalCustomers(){
+		List<Customer> loadlist = cDao.selectAllCustomers();
+		//might not even need the return list, possible to just remove customers that have
+		//orders 10 or less, return the remaining list
+		
+		//List<Customer> returnlist = new ArrayList<Customer>();
+		for(Customer c: loadlist) {
+			if(c.getOrders().size() <= 10) {
+				loadlist.remove(c);
+			}
+		}
+		return loadlist;
+	}
 		
 	public void createMenu() {
 		getMenu().add(new Food("Coffee",1.99));
