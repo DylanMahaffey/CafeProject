@@ -18,8 +18,7 @@ import java.util.Scanner;
 
 public class Cafe {
 	
-	private static CustomerDao cDao =  new CustomerDaoImpl();
-	private static EmployeeDao eDao =  new EmployeeDaoImpl();
+	private static UserDao uDao =  new UserDaoImpl();
 	private static OrderDao oDao = new OrderDaoImpl();
 	private static Cafe myCafe;
 	private List<Food> cafeMenu;
@@ -27,24 +26,23 @@ public class Cafe {
 	private Employee currEmployee;
 	
 	private Cafe() {
-		//load food list
-		//load customers
+		createMenu();
 	}
 	
 	public Order newOrder(Order o) {
 		
 		currCustomer.getOrders().add(o);
 		oDao.insertOrder(o);
-		cDao.updateCustomer(currCustomer);
+		uDao.updateUser(currCustomer);
 		return o;
 	}
 	
-	public void updateCustomer(Customer c) {
+	public void updateUser(Customer c) {
 		
-		cDao.updateCustomer(c);
+		uDao.updateUser(c);
 	}
 	
-	public void deleteCustomer(Customer c)
+	public void deleteUser(Customer c)
 	{
 		//this should take care of all foreign key constraints
 		for(Order o: currCustomer.getOrders())
@@ -52,7 +50,7 @@ public class Cafe {
 			deleteOrder(o);
 		}
 		//delete customer after all associated orders are deleted
-		cDao.deleteCustomer(c);
+		uDao.deleteCustomer(c);
 	}
 	
 	public void deleteOrder(Order o) {
@@ -62,7 +60,7 @@ public class Cafe {
 	public User createCustomerProfile(String name, String email, String password) {
 
 		Customer c = new Customer(name, email, password);
-		cDao.insertCustomer(c);
+		uDao.insertCustomer(c);
 		
 		return c;
 		
@@ -84,13 +82,12 @@ public class Cafe {
 		User u = null;
 		//if login doesnt exist 
 		if(getUserByEmail(username)) {
-			if(cDao.selectCustomerByEmail(username).getPassword().equals(password)) {
-				u = cDao.selectCustomerByEmail(username);
-				currCustomer = (Customer) u;
-			}
-			else if(eDao.selectEmployeeByEmail(username).getPassword().equals(password)) {
-				u = eDao.selectEmployeeByEmail(username);
-				currEmployee = (Employee) u;
+			if(uDao.selectUserByEmail(username).getPassword().equals(password)) {
+				u = uDao.selectUserByEmail(username);
+				if(u instanceof Customer)
+					currCustomer = (Customer) u;
+				else 
+					currEmployee = (Employee) u;
 			}
 			else {} 
 				
@@ -101,7 +98,7 @@ public class Cafe {
 	
 	public boolean getUserByEmail(String email) {
 		try {
-		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null) {
+		if(uDao.selectUserByEmail(email)!=null) {
 			return true;
 		}
 		}
@@ -113,7 +110,7 @@ public class Cafe {
 	}
 	
 	public List<Customer> getLoyalCustomers(){
-		List<Customer> loadlist = cDao.selectAllCustomers();
+		List<Customer> loadlist = uDao.selectAllCustomers();
 		//might not even need the return list, possible to just remove customers that have
 		//orders 10 or less, return the remaining list
 		
