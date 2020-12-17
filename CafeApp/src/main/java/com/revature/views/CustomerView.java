@@ -65,6 +65,9 @@ private static Cafe cafe;
 			int orderedItem = StateManager.getScanner().nextInt() - 1;
 			
 			if(orderedItem - 1 > menu.size() || orderedItem - 1 < 0) {
+				System.out.println("Invalid input.");
+				continue;
+			} else {
 				
 			}
 			
