@@ -67,9 +67,11 @@ public class UserDaoImpl implements UserDao{
 			ps.setString(1, email);
 			
 			ResultSet rs = ps.executeQuery();
+			ps.close();
 			while(rs.next()) {
 				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password")));
 			}
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
