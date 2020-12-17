@@ -24,8 +24,8 @@ public class Cafe {
 	private static OrderDao oDao = new OrderDaoImpl();
 	private static Cafe myCafe;
 	private List<Food> cafeMenu;
-	private Customer currCustomer;
-	private Employee currEmployee;
+	private User currUser;
+
 	
 	private Cafe() {
 		cafeMenu = new ArrayList<Food>();
@@ -34,9 +34,9 @@ public class Cafe {
 	
 	public Order newOrder(Order o) {
 		
-		currCustomer.getOrders().add(o);
+		currUser.getOrders().add(o);
 		oDao.insertOrder(o);
-		uDao.updateUser(currCustomer);
+		uDao.updateUser(currUser);
 		return o;
 	}
 	
@@ -48,7 +48,7 @@ public class Cafe {
 	public void deleteUser(Customer c)
 	{
 		//this should take care of all foreign key constraints
-		for(Order o: currCustomer.getOrders())
+		for(Order o: currUser.getOrders())
 		{
 			deleteOrder(o);
 		}
@@ -90,10 +90,7 @@ public class Cafe {
             if(u.getPassword().equals(password)) {
                 System.out.println("userSelected");
                 u = uDao.selectUserByEmail(username);
-                if(u.getType().equals("customer"))
-                    currCustomer = (Customer) u;
-                else 
-                    currEmployee = (Employee) u;
+               currUser = u;
             }
             else {} 
                 
@@ -104,17 +101,17 @@ public class Cafe {
 		
 	
 	
-	public boolean getUserByEmail(String email) {
+	public User getUserByEmail(String email) {
 		try {
 		if(uDao.selectUserByEmail(email)!=null) {
 			System.err.println(uDao.selectUserByEmail(email) + " : first check");
-			return true;
+			return uDao.selectUserByEmail(email);
 		}
 		}
 		catch (IndexOutOfBoundsException e) {
-			return true;
+			return uDao.selectUserByEmail(email);
 		}
-		return false;
+		return uDao.selectUserByEmail(email);
 		
 	}
 	
@@ -143,8 +140,7 @@ public class Cafe {
 	}
 	
 	public void logOut() {
-		currCustomer = null;
-		currEmployee = null;
+		currUser = null;
 	}
 	
 	
