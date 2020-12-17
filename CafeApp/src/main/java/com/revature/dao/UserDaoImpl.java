@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void insertUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "INSERT INTO users (name, email, password, type) VALUES "
+			String sql = "INSERT INTO users (user_name, user_email, user_password, user_type) VALUES "
 						+ "(?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -38,14 +38,14 @@ public class UserDaoImpl implements UserDao{
 		List<User> users = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE id = ?;";
+			String sql = "SELECT * FROM users WHERE user_id = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("type")));
+				users.add(new User(rs.getString("user_name"), rs.getString("user_email"), rs.getString("user_password"), rs.getString("user_type")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao{
 		List<User> users = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE email = ?;";
+			String sql = "SELECT * FROM users WHERE user_email = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, email);
@@ -70,7 +70,7 @@ public class UserDaoImpl implements UserDao{
 			ResultSet rs = ps.executeQuery();
 			ps.close();
 			while(rs.next()) {
-				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("type")));
+				users.add(new User(rs.getString("user_name"), rs.getString("user_email"), rs.getString("user_password"), rs.getString("user_type")));
 			}
 			
 		} catch(SQLException e) {
@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("type")));
+				users.add(new User(rs.getString("user_name"), rs.getString("user_email"), rs.getString("user_password"), rs.getString("user_type")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -104,9 +104,9 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void updateUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "UPDATE users SET (name, email, password, type) WHERE "
-						+ "name = ? AND email = ? AND password = ? AND type = ?;"
-						+ "(?,?,?)";
+			String sql = "UPDATE users SET (user_name, user_email, user_password, user_type) WHERE "
+						+ "user_name = ? AND user_email = ? AND user_password = ? AND user_type = ?;"
+						+ "(?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, u.getName());
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao{
 	public void deleteUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "DELETE FROM users WHERE "
-						+ "name = ? AND email = ? AND password = ? AND type = ?;"
+						+ "user_name = ? AND user_email = ? AND user_password = ? AND user_type = ?;"
 						+ "(?,?,?,?);";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
