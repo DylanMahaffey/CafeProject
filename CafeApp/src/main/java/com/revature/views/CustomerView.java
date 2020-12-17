@@ -95,6 +95,7 @@ private static Cafe cafe;
 			
 			if (finish.equals("0")) {
 				System.out.println("Order Completed!");
+				getCafe().newOrder(customerOrder);
 				start();
 				question = false;
 				break;
