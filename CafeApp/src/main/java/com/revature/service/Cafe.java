@@ -100,8 +100,12 @@ public class Cafe {
 	}
 	
 	public boolean getUserByEmail(String email) {
-		
+		try {
 		if(cDao.selectCustomerByEmail(email)!=null||eDao.selectEmployeeByEmail(email)!=null) {
+			return true;
+		}
+		}
+		catch (IndexOutOfBoundsException e) {
 			return true;
 		}
 		return false;
