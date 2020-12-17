@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Built-By: dylan
-Build-Jdk: 15.0.1
+Built-By: marcs
+Build-Jdk: 15
 Class-Path: lib/log4j-1.2.17.jar lib/postgresql-42.2.18.jar lib/checker-
  qual-3.5.0.jar
 Main-Class: com.revature.Driver

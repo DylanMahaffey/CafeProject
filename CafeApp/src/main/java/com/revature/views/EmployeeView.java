@@ -57,7 +57,6 @@ private static Cafe cafe;
 		Router.getWelcomeView().start();
 	}
 	
-	@SuppressWarnings("null")
 	public static void deleteCustomer() {
 		Customer customer = null;
 		
@@ -79,7 +78,6 @@ private static Cafe cafe;
 		}
 	}
 	
-	@SuppressWarnings("null")
 	public static void updateCustomer() {
 		Customer customer = null;
 		
