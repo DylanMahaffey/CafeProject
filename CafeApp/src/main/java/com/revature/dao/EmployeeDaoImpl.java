@@ -50,7 +50,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return employees.get(0);
+		Employee employee = null;
+		if(employees.size() > 0) {
+			employee = employees.get(0);
+		}
+		return employee;
 	}
 	
 	@Override
@@ -70,10 +74,12 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		} catch(SQLException ex) {
 			ex.printStackTrace();
 		}
-		if (employees.size() > 0) {
-            e = employees.get(0);
-        }
-        return e;
+
+		Employee employee = null;
+		if(employees.size() > 0) {
+			employee = employees.get(0);
+		}
+		return employee;
 	}
 
 	@Override

@@ -50,7 +50,11 @@ public class CustomerDaoImpl implements CustomerDao{
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return customers.get(0);
+		Customer customer = null;
+		if(customers.size() > 0) {
+			customer = customers.get(0);
+		}
+		return customer;
 	}
 	
 	@Override
@@ -70,11 +74,12 @@ public class CustomerDaoImpl implements CustomerDao{
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
-		if (customers.size() > 0) {
-            c = customers.get(0);
-        }
-        return c;
+
+		Customer customer = null;
+		if(customers.size() > 0) {
+			customer = customers.get(0);
+		}
+		return customer;
 	}
 
 	@Override

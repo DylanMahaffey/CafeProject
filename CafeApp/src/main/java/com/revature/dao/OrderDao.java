@@ -11,7 +11,7 @@ public interface OrderDao {
 	public void insertOrder(Order o);
 	
 	//READ
-	public Order selectOrderById(int id);
+	public Order selectOrderByOrderNumber(long oN);
 	public List<Order> selectOrderByCustomer(Customer c);
 	public List<Order> selectAllOrders();
 	
