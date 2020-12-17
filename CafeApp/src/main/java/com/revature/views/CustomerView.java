@@ -59,16 +59,20 @@ private static Cafe cafe;
 			System.out.println(foodSelector + " - " + f.getName() + ": " + f.getPrice());
 			foodSelector++;
 		}
-		
+		System.out.println("0 - Complete Order");
 		boolean ordering = true;
 		while (!ordering) {
 			int orderedItem = StateManager.getScanner().nextInt() - 1;
 			
-			if(orderedItem - 1 > menu.size() || orderedItem - 1 < 0) {
+			if(orderedItem == -1) {
+				start();
+			} else if (orderedItem > menu.size() || orderedItem < 0) {
 				System.out.println("Invalid input.");
 				continue;
-			} else {
 				
+			} else {
+				customerOrder.add(menu.get(orderedItem));
+				System.out.println(menu.get(orderedItem).getName() + " - " + menu.get(orderedItem).getPrice() + " added to order");
 			}
 			
 		}
