@@ -6,6 +6,8 @@ import com.revature.dao.EmployeeDao;
 import com.revature.dao.EmployeeDaoImpl;
 import com.revature.dao.OrderDao;
 import com.revature.dao.OrderDaoImpl;
+import com.revature.dao.UserDao;
+import com.revature.dao.UserDaoImpl;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.Food;
@@ -26,6 +28,7 @@ public class Cafe {
 	private Employee currEmployee;
 	
 	private Cafe() {
+		cafeMenu = new ArrayList<Food>();
 		createMenu();
 	}
 	
@@ -50,7 +53,7 @@ public class Cafe {
 			deleteOrder(o);
 		}
 		//delete customer after all associated orders are deleted
-		uDao.deleteCustomer(c);
+		uDao.deleteUser(c);
 	}
 	
 	public void deleteOrder(Order o) {
@@ -60,7 +63,7 @@ public class Cafe {
 	public User createCustomerProfile(String name, String email, String password) {
 
 		Customer c = new Customer(name, email, password);
-		uDao.insertCustomer(c);
+		uDao.insertUser(c);
 		
 		return c;
 		
@@ -109,27 +112,28 @@ public class Cafe {
 		
 	}
 	
-	public List<Customer> getLoyalCustomers(){
-		List<Customer> loadlist = uDao.selectAllCustomers();
+	public List<User> getLoyalCustomers(){
+		List<User> loadlist = uDao.selectAllUsers();
 		//might not even need the return list, possible to just remove customers that have
 		//orders 10 or less, return the remaining list
 		
 		//List<Customer> returnlist = new ArrayList<Customer>();
-		for(Customer c: loadlist) {
-			if(c.getOrders().size() <= 10) {
-				loadlist.remove(c);
+		for(User u: loadlist) {
+			if(u.getOrders().size() <= 10) {
+				loadlist.remove(u);
 			}
 		}
 		return loadlist;
 	}
 		
 	public void createMenu() {
-		getMenu().add(new Food("Coffee",1.99));
-		getMenu().add(new Food("Water",.99));
-		getMenu().add(new Food("Tea",1.99));
-		getMenu().add(new Food("Biscuit",1.99));
-		getMenu().add(new Food("Bagel",.99));
-		getMenu().add(new Food("Croissant",2.99));
+		
+		cafeMenu.add(new Food("Coffee",1.99));
+		cafeMenu.add(new Food("Water",.99));
+		cafeMenu.add(new Food("Tea",1.99));
+		cafeMenu.add(new Food("Biscuit",1.99));
+		cafeMenu.add(new Food("Bagel",.99));
+		cafeMenu.add(new Food("Croissant",2.99));
 	}
 	
 	public void logOut() {

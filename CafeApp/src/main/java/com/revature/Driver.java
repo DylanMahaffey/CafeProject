@@ -6,7 +6,7 @@ import com.revature.dao.EmployeeDaoImpl;
 public class Driver {
 
 	public static void main(String [] args) {
-//		Router.getWelcomeView().start();
+		Router.getWelcomeView().start();
 //		EmployeeDaoImpl edao = new EmployeeDaoImpl();
 //		CustomerDaoImpl cdao = new CustomerDaoImpl();
 //		System.out.println(cdao.selectCustomerByEmail("marc.settin@email.com"));
