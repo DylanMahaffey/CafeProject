@@ -60,7 +60,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public Employee selectEmployeeByEmail(String email) {
 		List<Employee> employees = new ArrayList<>();
-		
+		Employee e = null;
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "SELECT * FROM users WHERE email = ? AND type = 'employee';";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -71,9 +71,10 @@ public class EmployeeDaoImpl implements EmployeeDao{
 			while(rs.next()) {
 				employees.add(new Employee(rs.getString("name"), rs.getString("email"), rs.getString("password")));
 			}
-		} catch(SQLException e) {
-			e.printStackTrace();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
 		}
+
 		Employee employee = null;
 		if(employees.size() > 0) {
 			employee = employees.get(0);
