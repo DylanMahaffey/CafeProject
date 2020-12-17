@@ -50,7 +50,7 @@ public class OrderDaoImpl implements OrderDao {
 				String[] foods = (String[])foodArray.getArray();
 				List<Food> foodList = new ArrayList<>();
 				for(int i=0; i<foods.length; i++) {
-					//TODO - Construct food from array
+					//foodArray.
 				}
 				orderList.add(new Order(rs.getLong("ordernumber"), rs.getInt("user_id")));
 			}
@@ -93,11 +93,20 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public void deleteOrder(Order o) {
 		try(Connection conn = DB_Connection.getConnection()){
+			String sql = "DELETE FROM orders WHERE "
+						+ "foodordered = ? AND user_id = ?;"
+						+ "(?,?);";
 			
-		} catch (SQLException e) {
+			Array foodArray = conn.createArrayOf("_text", o.getFoodOrdered().toArray());
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setArray(1, foodArray);
+			ps.setInt(2, o.getUserId());
+			
+			ps.execute();
+			ps.close();
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 }

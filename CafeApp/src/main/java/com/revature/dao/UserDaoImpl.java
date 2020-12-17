@@ -15,15 +15,16 @@ import com.revature.util.DB_Connection;
 public class UserDaoImpl implements UserDao{
 
 	@Override
-	public void insertUser(User c) {
+	public void insertUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "INSERT INTO users (name, email, password) VALUES "
-						+ "(?,?,?)";
+			String sql = "INSERT INTO users (name, email, password, type) VALUES "
+						+ "(?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, c.getName());
-			ps.setString(2, c.getEmail());
-			ps.setString(3, c.getPassword());
+			ps.setString(1, u.getName());
+			ps.setString(2, u.getEmail());
+			ps.setString(3, u.getPassword());
+			ps.setString(4, u.getType());
 			
 			ps.execute();
 			ps.close();
@@ -44,7 +45,7 @@ public class UserDaoImpl implements UserDao{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("type")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -68,7 +69,7 @@ public class UserDaoImpl implements UserDao{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("type")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -90,7 +91,7 @@ public class UserDaoImpl implements UserDao{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				users.add(new User(rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("type")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -99,16 +100,17 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public void updateUser(User c) {
+	public void updateUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "UPDATE users SET (name, email, password, type) WHERE "
-						+ "name = ? AND email = ? AND password = ?;"
+						+ "name = ? AND email = ? AND password = ? AND type = ?;"
 						+ "(?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, c.getName());
-			ps.setString(2, c.getEmail());
-			ps.setString(3, c.getPassword());
+			ps.setString(1, u.getName());
+			ps.setString(2, u.getEmail());
+			ps.setString(3, u.getPassword());
+			ps.setString(4, u.getType());
 			
 			ps.execute();
 			ps.close();
@@ -118,16 +120,17 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public void deleteUser(User c) {
+	public void deleteUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "DELETE FROM users WHERE "
-						+ "name = ? AND email = ? AND password = ?;"
-						+ "(?,?,?);";
+						+ "name = ? AND email = ? AND password = ? AND type = ?;"
+						+ "(?,?,?,?);";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, c.getName());
-			ps.setString(2, c.getEmail());
-			ps.setString(3, c.getPassword());
+			ps.setString(1, u.getName());
+			ps.setString(2, u.getEmail());
+			ps.setString(3, u.getPassword());
+			ps.setString(4, u.getType());
 			
 			ps.execute();
 			ps.close();
