@@ -39,7 +39,7 @@ public class Cafe {
 	
 	public void updateUser(Customer c) {
 		
-		cDao.updateUser(c);
+		uDao.updateUser(c);
 	}
 	
 	public void deleteUser(Customer c)
@@ -50,7 +50,7 @@ public class Cafe {
 			deleteOrder(o);
 		}
 		//delete customer after all associated orders are deleted
-		cDao.deleteCustomer(c);
+		uDao.deleteCustomer(c);
 	}
 	
 	public void deleteOrder(Order o) {
