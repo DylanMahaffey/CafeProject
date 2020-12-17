@@ -7,16 +7,16 @@ import com.revature.service.Cafe;
 
 public class WelcomeView {
 	
-	private static Cafe cafe;
+	private Cafe cafe;
 	
-	private static Cafe getCafe() {
+	private Cafe getCafe() {
 		if (cafe == null) {
 			cafe = Cafe.createCafe();
 		}
 		return cafe;
 	}
 	
-	public static void start() {
+	public void start() {
 		System.out.println("Welcome to the cafe!");
 		System.out.println("1 - Log In");
 		System.out.println("2 - Register");
@@ -33,7 +33,7 @@ public class WelcomeView {
 		}
 	}
 	
-	public static void login() {
+	public void login() {
 		StateManager.printSpacer();
 		System.out.println("Enter email");
 		String email = StateManager.getScanner().next();
@@ -50,7 +50,7 @@ public class WelcomeView {
 		}
 	}
 	
-	public static void register() {
+	public void register() {
 		StateManager.printSpacer();
 		System.out.println("Enter your full name");
 		String name = StateManager.getScanner().next();
@@ -77,7 +77,7 @@ public class WelcomeView {
 			password = StateManager.getScanner().next();			
 
 			System.out.println("Confirm Password");
-			String confPassword = StateManager.getScanner().next();		
+			String confPassword = StateManager.getScanner().next();
 			
 			if (password.equals(confPassword)) {
 				passwordOK = true;
