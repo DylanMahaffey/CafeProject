@@ -1,7 +1,12 @@
 package com.revature.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.revature.Router;
 import com.revature.StateManager;
+import com.revature.models.Customer;
+import com.revature.models.Order;
 import com.revature.models.User;
 import com.revature.service.Cafe;
 
@@ -35,10 +40,13 @@ private static Cafe cafe;
 				logout();
 				break;
 			case 1:
+				deleteCustomer();
 				break;
 			case 2:
+				updateCustomer();
 				break;
 			case 3:
+				getLargeOrders();
 				break;
 				
 		}
@@ -47,5 +55,62 @@ private static Cafe cafe;
 	public static void logout() {
 		StateManager.loggedInUser = null;
 		Router.getWelcomeView().start();
+	}
+	
+	public static void deleteCustomer() {
+		Customer customer = null;
+		
+		StateManager.printSpacer();
+		System.out.print("Enter Customer email: ");
+		String email = StateManager.getScanner().next();
+		
+		boolean searching = true;
+		while(searching) {
+			if (cafe.getUserByEmail(email) == true) {
+				cafe.deleteUser(customer);
+				searching = false;
+			}
+			else {
+				System.out.println("No user with email: " + email + " found.");
+				email = StateManager.getScanner().next();
+				System.out.print("Enter Customer email: ");
+			}
+		}
+	}
+	
+	public static void updateCustomer() {
+		Customer customer = null;
+		
+		StateManager.printSpacer();
+		System.out.print("Enter Customer email: ");
+		String email = StateManager.getScanner().next();
+		
+		boolean searching = true;
+		while(searching) {
+			if (cafe.getUserByEmail(email) == true) {
+				cafe.updateUser(customer);
+				searching = false;
+			}
+			else {
+				System.out.println("No user with email: " + email + " found.");
+				email = StateManager.getScanner().next();
+				System.out.print("Enter Customer email: ");
+			}
+		}
+	}
+	public static void getLargeOrders() {
+		List<Order> orders = new ArrayList<Order>();
+		
+		StateManager.printSpacer();
+		//orders = cafe.getLargeOrders();
+		
+		for(Order order : orders) {
+			System.out.println("Order Number: " + order.getOrderNumber());
+			System.out.println("Customer: Needs Cafe Implementation");
+			System.out.println("Food Ordered: " + order.getFoodOrdered());
+			System.out.println("Total: " + order.getTotal());
+			StateManager.printSpacer();
+		}
+		
 	}
 }
