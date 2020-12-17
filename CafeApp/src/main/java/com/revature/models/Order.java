@@ -66,7 +66,7 @@ public class Order {
 		this.userId = userId;
 	}
 	
-	public int getTotal() {
+	public Integer getTotal() {
 		int total = 0;
 		for(Food f : this.foodOrdered) {
 			total += f.getPrice();
