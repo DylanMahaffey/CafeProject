@@ -60,7 +60,7 @@ private static Cafe cafe;
 			System.out.println(foodSelector + " - " + f.getName() + ": " + f.getPrice());
 			foodSelector++;
 		}
-		System.out.println("0 - Complete Order");
+		System.out.println("0 - Finish Ordering");
 		boolean ordering = true;
 		while (ordering) {
 			int orderedItem = StateManager.getScanner().nextInt();
@@ -80,8 +80,34 @@ private static Cafe cafe;
 			
 		}
 		
-		System.out.println(customerOrder);
+		System.out.println("Your Order");
+		for (Food f : customerOrder.getFoodOrdered()) {
+			System.out.println(f.getName() + ": " + f.getPrice());
+		}
+		System.out.println("Your Total: " + customerOrder.getTotal());
+		System.out.println("Complete your order?");
+		System.out.println("0 - Complete Order");
+		System.out.println("1 - Exit");
 		
+		boolean question = true;
+		while(question) {
+			String finish = StateManager.getScanner().next();
+			
+			if (finish.equals("0")) {
+				System.out.println("Order Completed!");
+				start();
+				question = false;
+				break;
+			} else if (finish.equals("2")) {
+				System.out.println("Order Canceled");
+				start();
+				question = false;
+				break;
+			} else {
+				System.out.println("Invalid Input.");
+				continue;
+			}
+		}
 	}
 
 }
