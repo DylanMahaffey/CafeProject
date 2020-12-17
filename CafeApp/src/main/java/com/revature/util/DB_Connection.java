@@ -16,7 +16,7 @@ public class DB_Connection {
 	{
 		try 
 		{
-			if(connection == null)
+			if(connection == null || connection.isClosed())
 			{
 				connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			}
