@@ -42,6 +42,7 @@ public class Router {
 		} else if (u instanceof Employee) {
 			getEmployeeView().start();
 		} else {
+			System.out.println(u.getClass());
 			System.out.println("There was an error logging in.");
 		}
 	}
