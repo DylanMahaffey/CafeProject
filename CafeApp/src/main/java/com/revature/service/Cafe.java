@@ -82,10 +82,13 @@ public class Cafe {
 	}
 	
 	public User logIn(String username, String password) {
-		User u = null;
+		User u = uDao.selectUserByEmail(username);
+		System.out.println(u);
 		//if login doesnt exist 
-		if(getUserByEmail(username)) {
-			if(uDao.selectUserByEmail(username).getPassword().equals(password)) {
+		if(u == null) {
+			System.out.println("email exists");
+			if(u.getPassword().equals(password)) {
+				System.out.println("userSelected");
 				u = uDao.selectUserByEmail(username);
 				if(u instanceof Customer)
 					currCustomer = (Customer) u;
@@ -102,6 +105,7 @@ public class Cafe {
 	public boolean getUserByEmail(String email) {
 		try {
 		if(uDao.selectUserByEmail(email)!=null) {
+			System.out.println("first db check");
 			return true;
 		}
 		}

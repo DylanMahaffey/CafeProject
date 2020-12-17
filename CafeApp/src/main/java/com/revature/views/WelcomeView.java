@@ -42,10 +42,13 @@ public class WelcomeView {
 		
 		// This is where I will call your login to get a user back
 		// Cafe.loginMethod();
+		System.out.println(email);
+		System.out.println(password);
 		User u = getCafe().logIn(email, password);
 		if (u == null) {
 			System.out.println("There Username/Password was incorrect");
 		} else {
+			
 			Router.loggingInUser(u);
 		}
 	}
