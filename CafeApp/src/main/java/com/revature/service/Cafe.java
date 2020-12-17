@@ -82,26 +82,32 @@ public class Cafe {
 	}
 	
 	public User logIn(String username, String password) {
-		User u = null;
-		//if login doesnt exist 
-		if(getUserByEmail(username)) {
-			if(uDao.selectUserByEmail(username).getPassword().equals(password)) {
-				u = uDao.selectUserByEmail(username);
-				if(u instanceof Customer)
-					currCustomer = (Customer) u;
-				else 
-					currEmployee = (Employee) u;
-			}
-			else {} 
-				
-		}
-		return  u;
+        User u = uDao.selectUserByEmail(username);
+        System.out.println(u);
+        //if login doesnt exist 
+        if(u == null) {
+            System.out.println("email exists");
+            if(u.getPassword().equals(password)) {
+                System.out.println("userSelected");
+                u = uDao.selectUserByEmail(username);
+                if(u.getType().equals("customer"))
+                    currCustomer = (Customer) u;
+                else 
+                    currEmployee = (Employee) u;
+            }
+            else {} 
+                
+        }
+        return  u;
+        
+    }
 		
-	}
+	
 	
 	public boolean getUserByEmail(String email) {
 		try {
 		if(uDao.selectUserByEmail(email)!=null) {
+			System.err.println(uDao.selectUserByEmail(email) + " : first check");
 			return true;
 		}
 		}

@@ -10,11 +10,13 @@ public class User {
 	private String email;
 	private String password;
 	private List<Order> orders;
+	private String type;
 	
-	public User(String name, String email, String password) {
+	public User(String name, String email, String password, String type) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.type = type;
 		
 		orders = new ArrayList<>();
 	}
@@ -57,6 +59,16 @@ public class User {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+	
+	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	@Override

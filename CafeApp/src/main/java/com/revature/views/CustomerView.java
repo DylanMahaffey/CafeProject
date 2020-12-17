@@ -6,6 +6,7 @@ import java.util.List;
 import com.revature.Router;
 import com.revature.StateManager;
 import com.revature.models.Food;
+import com.revature.models.Order;
 import com.revature.models.User;
 import com.revature.service.Cafe;
 
@@ -52,7 +53,7 @@ private static Cafe cafe;
 	public static void order() {
 		StateManager.printSpacer();
 		List<Food> menu = getCafe().getMenu();
-		List<Food> customerOrder = new ArrayList<Food>();
+		Order customerOrder = new Order(StateManager.loggedInUser.getId());
 		
 		int foodSelector = 1;
 		for(Food f : menu) {
@@ -61,21 +62,25 @@ private static Cafe cafe;
 		}
 		System.out.println("0 - Complete Order");
 		boolean ordering = true;
-		while (!ordering) {
-			int orderedItem = StateManager.getScanner().nextInt() - 1;
+		while (ordering) {
+			int orderedItem = StateManager.getScanner().nextInt();
+			orderedItem--;
 			
 			if(orderedItem == -1) {
-				start();
-			} else if (orderedItem > menu.size() || orderedItem < 0) {
+				ordering = false;
+				break;
+			} else if (orderedItem > menu.size() - 1 || orderedItem < 0) {
 				System.out.println("Invalid input.");
 				continue;
 				
 			} else {
-				customerOrder.add(menu.get(orderedItem));
+				customerOrder.addItemToOrder(menu.get(orderedItem));
 				System.out.println(menu.get(orderedItem).getName() + " - " + menu.get(orderedItem).getPrice() + " added to order");
 			}
 			
 		}
+		
+		System.out.println(customerOrder);
 		
 	}
 

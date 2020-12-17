@@ -2,6 +2,7 @@ package com.revature.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Order {
 	
@@ -24,7 +25,9 @@ public class Order {
 		this(orderNumber, userId, new ArrayList<>());
 	}
 
-
+	public Order(int userId) {
+		this(new Random().nextLong(), userId);
+	}
 
 	public long getOrderNumber() {
 		return orderNumber;
@@ -52,6 +55,9 @@ public class Order {
 
 	public void setFoodOrdered(List<Food> foodOrdered) {
 		this.foodOrdered = foodOrdered;
+	}
+	public void addItemToOrder(Food f) {
+		this.foodOrdered.add(f);
 	}
 
 
