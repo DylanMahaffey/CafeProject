@@ -12,10 +12,11 @@ public class User {
 	private List<Order> orders;
 	private String type;
 	
-	public User(String name, String email, String password) {
+	public User(String name, String email, String password, String type) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.type = type;
 		
 		orders = new ArrayList<>();
 	}
