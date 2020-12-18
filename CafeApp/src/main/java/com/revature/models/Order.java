@@ -71,7 +71,11 @@ public class Order {
 		for(Food f : this.foodOrdered) {
 			total += f.getPrice();
 		}
-		return total;
+		
+		long factor = (long) Math.pow(10, 2);
+		total = total * factor;
+		long tmp = Math.round(total);
+		return (double) tmp / factor;
 	}
 
 
