@@ -66,7 +66,8 @@ private static Cafe cafe;
 		
 		boolean searching = true;
 		while(searching) {
-			if (cafe.getUserByEmail(email) == true) {
+			customer = (Customer) cafe.getUserByEmail(email);
+			if (customer != null) {
 				cafe.deleteUser(customer);
 				searching = false;
 			}
@@ -87,7 +88,8 @@ private static Cafe cafe;
 		
 		boolean searching = true;
 		while(searching) {
-			if (cafe.getUserByEmail(email) == true) {
+			customer = (Customer) cafe.getUserByEmail(email);
+			if (customer != null) {
 				cafe.updateUser(customer);
 				searching = false;
 			}
@@ -99,17 +101,21 @@ private static Cafe cafe;
 		}
 	}
 	public static void getLargeOrders() {
+		List<Customer> customers = new ArrayList<Customer>();
 		List<Order> orders = new ArrayList<Order>();
 		
 		StateManager.printSpacer();
-		//orders = cafe.getLargeOrders();
+		customers = cafe.getLoyalCustomers();
 		
-		for(Order order : orders) {
+		for(Customer customer : customers) {
+			System.out.println("Customer: " + customer.getName());
+			orders = customer.getOrders();
+			for(Order order : orders) {
 			System.out.println("Order Number: " + order.getOrderNumber());
-			System.out.println("Customer: Needs Cafe Implementation");
-			System.out.println("Food Ordered: " + order.getFoodOrdered());
+			System.out.println("Food ordered: " + order.getFoodOrdered());
 			System.out.println("Total: " + order.getTotal());
 			StateManager.printSpacer();
+			}
 		}
 		
 	}
