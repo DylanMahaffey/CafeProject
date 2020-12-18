@@ -10,15 +10,18 @@ public class User {
 	private String email;
 	private String password;
 	private List<Order> orders;
-	private String type;
 	
-	public User(String name, String email, String password, String type) {
+	public User(String name, String email, String password) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.type = type;
 		
 		orders = new ArrayList<>();
+	}
+	
+	public User(int id, String name, String email, String password) {
+		this(name, email, password);
+		this.id = id;
 	}
 
 	public int getId() {
