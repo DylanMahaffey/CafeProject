@@ -17,14 +17,15 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public void insertEmployee(Employee emp) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "INSERT INTO users (name, email, password, type) VALUES "
-						+ "(?,?,?,?)";
+			String sql = "INSERT INTO employees (employee_name, employee_email, employee_password, employee_position, reports_to) VALUES "
+						+ "(?,?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, emp.getName());
 			ps.setString(2, emp.getEmail());
 			ps.setString(3, emp.getPassword());
-			ps.setString(4, "employee");
+			ps.setString(4, emp.getPosition());
+			ps.setInt(5, emp.getReportsTo());
 			
 			ps.execute();
 			ps.close();
@@ -38,14 +39,15 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		List<Employee> employees = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE id = ? AND type = 'employee';";
+			String sql = "SELECT * FROM employees WHERE employee_id = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				employees.add(new Employee(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				employees.add(new Employee(rs.getInt("employee_id"), rs.getString("employee_name"), rs.getString("employee_email"), rs.getString("employee_password"), 
+						rs.getString("employee_position"), rs.getInt("reports_to")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -62,14 +64,15 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		List<Employee> employees = new ArrayList<>();
 		Employee e = null;
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE email = ? AND type = 'employee';";
+			String sql = "SELECT * FROM employees WHERE employee_email = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, email);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				employees.add(new Employee(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				employees.add(new Employee(rs.getInt("employee_id"), rs.getString("employee_name"), rs.getString("employee_email"), rs.getString("employee_password"), 
+						rs.getString("employee_position"), rs.getInt("reports_to")));
 			}
 		} catch(SQLException ex) {
 			ex.printStackTrace();
@@ -87,12 +90,13 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		List<Employee> employees = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE type = 'employee';";
+			String sql = "SELECT * FROM employees;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				employees.add(new Employee(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				employees.add(new Employee(rs.getInt("employee_id"), rs.getString("employee_name"), rs.getString("employee_email"), rs.getString("employee_password"), 
+						rs.getString("employee_position"), rs.getInt("reports_to")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -103,14 +107,17 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public void updateEmployee(Employee emp) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "UPDATE users SET (name, email, password) WHERE "
-						+ "name = ? AND email = ? AND password = ? AND type = 'employee';"
-						+ "(?,?,?)";
+			String sql = "UPDATE employees SET employee_name = ?, employee_email = ?, employee_password = ?, employee_position = ?, reports_to = ? WHERE "
+						+ "employee_id = ?;"
+						+ "(?,?,?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, emp.getName());
 			ps.setString(2, emp.getEmail());
 			ps.setString(3, emp.getPassword());
+			ps.setString(4,  emp.getPosition());
+			ps.setInt(5,  emp.getReportsTo());
+			ps.setInt(6, emp.getId());
 			
 			ps.execute();
 			ps.close();
@@ -122,8 +129,8 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public void deleteEmployee(Employee emp) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "DELETE FROM users WHERE "
-						+ "name = ? AND email = ? AND password = ? AND type = 'employee';"
+			String sql = "DELETE FROM employees WHERE "
+						+ "employee_name = ? AND employee_email = ? AND employee_password = ?;"
 						+ "(?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
