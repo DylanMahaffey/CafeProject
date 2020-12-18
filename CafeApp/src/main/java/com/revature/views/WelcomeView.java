@@ -64,7 +64,7 @@ public class WelcomeView {
 		while (!emailOK) {
 			System.out.println("Enter your email");
 			email = StateManager.getScanner().next();
-			if (!getCafe().getUserByEmail(email)) {
+			if (getCafe().getUserByEmail(email) == null) {
 				System.out.println("Email already exists");
 				continue;
 			} else {
