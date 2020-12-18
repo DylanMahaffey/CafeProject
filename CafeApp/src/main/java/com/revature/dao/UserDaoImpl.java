@@ -104,15 +104,14 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void updateUser(User u) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "UPDATE users SET (user_name, user_email, user_password, user_type) WHERE "
-						+ "user_name = ? AND user_email = ? AND user_password = ? AND user_type = ?;"
+			String sql = "UPDATE users SET user_name=?, user_password=?, user_type=? WHERE "
+						+ "user_email = ?;"
 						+ "(?,?,?,?)";
-			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, u.getName());
-			ps.setString(2, u.getEmail());
-			ps.setString(3, u.getPassword());
-			ps.setString(4, u.getType());
+			ps.setString(2, u.getPassword());
+			ps.setString(3, u.getType());
+			ps.setString(4, u.getEmail());
 			
 			ps.execute();
 			ps.close();

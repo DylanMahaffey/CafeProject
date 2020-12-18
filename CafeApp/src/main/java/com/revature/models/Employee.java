@@ -1,11 +1,13 @@
 package com.revature.models;
 
-import java.util.List;
-
 public class Employee extends User {
 	
 	public Employee(String name, String email, String password) {
-		super(name, email, password, "employee");
+		super(name, email, password);
+	}
+	
+	public Employee(int id, String name, String email, String password) {
+		super(id, name, email, password);
 	}
 
 }

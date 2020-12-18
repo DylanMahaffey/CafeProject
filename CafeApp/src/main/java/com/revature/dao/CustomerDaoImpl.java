@@ -17,14 +17,13 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public void insertCustomer(Customer c) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "INSERT INTO users (name, email, password, type) VALUES "
-						+ "(?,?,?,?)";
+			String sql = "INSERT INTO customers (customer_name, customer_email, customer_password) VALUES "
+						+ "(?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, c.getName());
 			ps.setString(2, c.getEmail());
 			ps.setString(3, c.getPassword());
-			ps.setString(4, "customer");
 			
 			ps.execute();
 			ps.close();
@@ -38,14 +37,14 @@ public class CustomerDaoImpl implements CustomerDao{
 		List<Customer> customers = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE type = 'customer' AND id = ?;";
+			String sql = "SELECT * FROM customers WHERE customer_id = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				customers.add(new Customer(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				customers.add(new Customer(rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -60,16 +59,16 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public Customer selectCustomerByEmail(String email) {
 		List<Customer> customers = new ArrayList<>();
-		Customer c = null;
+		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE type = 'customer' AND email = ?;";
+			String sql = "SELECT * FROM customers WHERE email = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, email);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				customers.add(new Customer(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				customers.add(new Customer(rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -87,12 +86,12 @@ public class CustomerDaoImpl implements CustomerDao{
 		List<Customer> customers = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM users WHERE type = 'customer';";
+			String sql = "SELECT * FROM customers;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				customers.add(new Customer(rs.getString("name"), rs.getString("email"), rs.getString("password")));
+				customers.add(new Customer(rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -103,14 +102,14 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public void updateCustomer(Customer c) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "UPDATE users SET (name, email, password, type) WHERE "
-						+ "name = ? AND email = ? AND password = ? AND type = 'customer';"
+			String sql = "UPDATE customers SET customer_name = ?, customer_password = ? WHERE "
+						+ "customer_email = ?;"
 						+ "(?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, c.getName());
-			ps.setString(2, c.getEmail());
-			ps.setString(3, c.getPassword());
+			ps.setString(2, c.getPassword());
+			ps.setString(3, c.getEmail());
 			
 			ps.execute();
 			ps.close();
@@ -122,9 +121,9 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public void deleteCustomer(Customer c) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "DELETE FROM users WHERE "
-						+ "name = ? AND email = ? AND password = ? AND type = 'customer';"
-						+ "(?,?,?);";
+			String sql = "DELETE FROM customers WHERE "
+						+ "name = ? AND email = ? AND password = ?;"
+						+ "(?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, c.getName());

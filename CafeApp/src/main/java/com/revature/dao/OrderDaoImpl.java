@@ -97,14 +97,15 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public void updateOrder(Order o) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "UPDATE orders SET (foodordered, user_id) WHERE "
-						+ "foodordered = ? AND user_id = ?;"
-						+ "(?,?)";
+			String sql = "UPDATE orders SET foodordered = ?, user_id = ? WHERE "
+						+ "ordernumber = ?;"
+						+ "(?,?,?)";
 			
 			Array foodArray = conn.createArrayOf("_text", o.getFoodOrdered().toArray());
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, o.getUserId());
-			ps.setArray(2, foodArray);
+			ps.setArray(1, foodArray);
+			ps.setInt(2, o.getUserId());
+			ps.setLong(3, o.getOrderNumber());
 			
 			ps.execute();
 			ps.close();
@@ -117,13 +118,14 @@ public class OrderDaoImpl implements OrderDao {
 	public void deleteOrder(Order o) {
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "DELETE FROM orders WHERE "
-						+ "foodordered = ? AND user_id = ?;"
-						+ "(?,?);";
+						+ "ordernumber = ? AND foodordered = ? AND user_id = ?;"
+						+ "(?,?,?);";
 			
 			Array foodArray = conn.createArrayOf("_text", o.getFoodOrdered().toArray());
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setArray(1, foodArray);
-			ps.setInt(2, o.getUserId());
+			ps.setLong(1, o.getOrderNumber());
+			ps.setArray(2, foodArray);
+			ps.setInt(3, o.getUserId());
 			
 			ps.execute();
 			ps.close();
