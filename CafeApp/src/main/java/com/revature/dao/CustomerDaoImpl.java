@@ -44,7 +44,7 @@ public class CustomerDaoImpl implements CustomerDao{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				customers.add(new Customer(rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
+				customers.add(new Customer(rs.getInt("customer_id"), rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -61,14 +61,14 @@ public class CustomerDaoImpl implements CustomerDao{
 		List<Customer> customers = new ArrayList<>();
 		
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "SELECT * FROM customers WHERE email = ?;";
+			String sql = "SELECT * FROM customers WHERE customer_email = ?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, email);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				customers.add(new Customer(rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
+				customers.add(new Customer(rs.getInt("customer_id"), rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -91,7 +91,7 @@ public class CustomerDaoImpl implements CustomerDao{
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				customers.add(new Customer(rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
+				customers.add(new Customer(rs.getInt("customer_id"), rs.getString("customer_name"), rs.getString("customer_email"), rs.getString("customer_password")));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -102,14 +102,15 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public void updateCustomer(Customer c) {
 		try(Connection conn = DB_Connection.getConnection()){
-			String sql = "UPDATE customers SET customer_name = ?, customer_password = ? WHERE "
-						+ "customer_email = ?;"
-						+ "(?,?,?)";
+			String sql = "UPDATE customers SET customer_name = ?, customer_password = ?, customer_email WHERE "
+						+ "customer_id = ?;"
+						+ "(?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, c.getName());
 			ps.setString(2, c.getPassword());
 			ps.setString(3, c.getEmail());
+			ps.setInt(4, c.getId());
 			
 			ps.execute();
 			ps.close();
@@ -122,7 +123,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	public void deleteCustomer(Customer c) {
 		try(Connection conn = DB_Connection.getConnection()){
 			String sql = "DELETE FROM customers WHERE "
-						+ "name = ? AND email = ? AND password = ?;"
+						+ "customer_name = ? AND customer_email = ? AND customer_password = ?;"
 						+ "(?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
