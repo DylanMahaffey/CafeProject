@@ -9,7 +9,7 @@ public class Employee extends User {
 		super(name, email, password);
 	}
 	
-	public Employee(int id, String name, String email, String password, String position, int reoprtsTo) {
+	public Employee(int id, String name, String email, String password, String position, int reportsTo) {
 		super(id, name, email, password);
 		this.position = position;
 		this.reportsTo = reportsTo;
