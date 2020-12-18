@@ -10,4 +10,12 @@ public class Customer extends User {
 		super(id, name, email, password);
 	}
 
+	@Override
+	public String toString() {
+		return "Customer id()=" + getId() + ", name=" + getName() + ", email=" + getEmail()
+				+ ", getOrders()=" + getOrders();
+	}
+	
+	
+
 }

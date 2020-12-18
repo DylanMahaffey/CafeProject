@@ -63,16 +63,6 @@ public class User {
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
-	
-	
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	@Override
 	public String toString() {
