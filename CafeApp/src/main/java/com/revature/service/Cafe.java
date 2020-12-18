@@ -104,17 +104,19 @@ public class Cafe {
 		
 	
 	
-	public boolean getUserByEmail(String email) {
+	public User getUserByEmail(String email) {
+		User u = null;
 		try {
 		if(uDao.selectUserByEmail(email)!=null) {
+			u = uDao.selectUserByEmail(email);
 			System.err.println(uDao.selectUserByEmail(email) + " : first check");
-			return true;
+			return u;
 		}
 		}
 		catch (IndexOutOfBoundsException e) {
-			return true;
+			return u;
 		}
-		return false;
+		return u;
 		
 	}
 	
