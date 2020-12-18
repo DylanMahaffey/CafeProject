@@ -39,7 +39,7 @@ public class Cafe {
 		
 		currCustomer.getOrders().add(o);
 		oDao.insertOrder(o);
-		uDao.updateUser(currCustomer);
+		cDao.updateCustomer(currCustomer);
 		return o;
 	}
 	
@@ -128,15 +128,15 @@ public class Cafe {
 		return u;	
 	}
 	
-	public List<User> getLoyalCustomers(){
-		List<User> loadlist = uDao.selectAllUsers();
+	public List<Customer> getLoyalCustomers(){
+		List<Customer> loadlist = cDao.selectAllCustomers();
 		//might not even need the return list, possible to just remove customers that have
 		//orders 10 or less, return the remaining list
 		
 		//List<Customer> returnlist = new ArrayList<Customer>();
-		for(User u: loadlist) {
-			if(u.getOrders().size() <= 10) {
-				loadlist.remove(u);
+		for(Customer c: loadlist) {
+			if(c.getOrders().size() <= 10) {
+				loadlist.remove(c);
 			}
 		}
 		return loadlist;
