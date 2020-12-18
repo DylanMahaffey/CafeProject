@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Customer;
-import com.revature.models.Food;
 import com.revature.models.Order;
 import com.revature.util.DB_Connection;
 
@@ -46,48 +45,72 @@ public class OrderDaoImpl implements OrderDao {
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				Array foodArray = rs.getArray("foodordered");
-				String[] foods = (String[])foodArray.getArray();
-				List<Food> foodList = new ArrayList<>();
-				for(int i=0; i<foods.length; i++) {
-					//foodArray.
-				}
 				orderList.add(new Order(rs.getLong("ordernumber"), rs.getInt("user_id")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		Order order = null;
+		if(orderList.size() > 0) {
+			order = orderList.get(0);
+		}
+		return order;
 	}
 
 	@Override
 	public List<Order> selectOrderByCustomer(Customer c) {
+		List<Order> orderList = new ArrayList<>();
 		try(Connection conn = DB_Connection.getConnection()){
+			String sql = "SELECT * FROM orders WHERE user_id = (SELECT user_id FROM users WHERE customer_email = ?);";
 			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1,c.getEmail());
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				orderList.add(new Order(rs.getLong("ordernumber"), rs.getInt("user_id")));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return orderList;
 	}
 
 	@Override
 	public List<Order> selectAllOrders() {
+		List<Order> orderList = new ArrayList<>();
 		try(Connection conn = DB_Connection.getConnection()){
+			String sql = "SELECT * FROM orders;";
 			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				orderList.add(new Order(rs.getLong("ordernumber"), rs.getInt("user_id")));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return orderList;
 	}
 
 	@Override
 	public void updateOrder(Order o) {
 		try(Connection conn = DB_Connection.getConnection()){
+			String sql = "UPDATE orders SET (foodordered, user_id) WHERE "
+						+ "foodordered = ? AND user_id = ?;"
+						+ "(?,?)";
 			
-		} catch (SQLException e) {
+			Array foodArray = conn.createArrayOf("_text", o.getFoodOrdered().toArray());
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, o.getUserId());
+			ps.setArray(2, foodArray);
+			
+			ps.execute();
+			ps.close();
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
