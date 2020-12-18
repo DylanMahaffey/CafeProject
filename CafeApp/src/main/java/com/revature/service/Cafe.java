@@ -21,7 +21,10 @@ import java.util.Scanner;
 public class Cafe {
 	
 	private static UserDao uDao =  new UserDaoImpl();
+	private static CustomerDao cDao =  new CustomerDaoImpl();
+	private static EmployeeDao eDao =  new EmployeeDaoImpl();
 	private static OrderDao oDao = new OrderDaoImpl();
+	
 	private static Cafe myCafe;
 	private List<Food> cafeMenu;
 	private Customer currCustomer;
@@ -82,42 +85,47 @@ public class Cafe {
 	}
 	
 	public User logIn(String username, String password) {
-        User u = uDao.selectUserByEmail(username);
+        User u = cDao.selectCustomerByEmail(username);
+        currCustomer = (Customer) u;
+        if(u == null) {
+        	u = eDao.selectEmployeeByEmail(username);
+        	currEmployee = (Employee) u;
+        }
         System.out.println(u);
         //if login doesnt exist 
         if(u == null) {
-            System.out.println("email exists");
-            if(u.getPassword().equals(password)) {
-                System.out.println("userSelected");
-                u = uDao.selectUserByEmail(username);
-                if(u.getType().equals("customer"))
-                    currCustomer = (Customer) u;
-                else 
-                    currEmployee = (Employee) u;
+            System.out.println("Invalid Email");
             }
-            else {} 
-                
+        else if(u.getPassword().equals(password)){
+            	return u;
+            }
+        else {
+        	System.out.println("Wrong Password");
+        	logOut();
         }
         return  u;
-        
-    }
+        }
+       
+
 		
 	
 	
 	public User getUserByEmail(String email) {
 		User u = null;
 		try {
-		if(uDao.selectUserByEmail(email)!=null) {
-			u = uDao.selectUserByEmail(email);
-			System.err.println(uDao.selectUserByEmail(email) + " : first check");
-			return u;
-		}
+			u = cDao.selectCustomerByEmail(email);
+		        if(u == null) {
+		        	u = eDao.selectEmployeeByEmail(email);
+		        	if(u == null) {
+		        		System.out.println("Email does not exist");
+		        	}
+		        }
+		        System.out.println(u);
 		}
 		catch (IndexOutOfBoundsException e) {
 			return u;
 		}
-		return u;
-		
+		return u;	
 	}
 	
 	public List<User> getLoyalCustomers(){
